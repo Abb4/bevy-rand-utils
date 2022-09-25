@@ -1,5 +1,18 @@
 use bevy::prelude::{Vec2, Vec3};
 
+pub fn rand_vec3_xy(origin: Vec3, min_distance: f32, max_distance: f32) -> Vec3 {
+    assert!(
+        min_distance <= max_distance,
+        "Min distance is greater than max distance when generating a vector with offset."
+    );
+
+    Vec3::new(
+        origin.x + random_f32_signed(min_distance, max_distance),
+        origin.y + random_f32_signed(min_distance, max_distance),
+        origin.z,
+    )
+}
+
 /// Produces a `Vec2` at least `min_distance` and at most `max_distance` away from `origin`.
 pub fn rand_vec2(origin: Vec2, min_distance: f32, max_distance: f32) -> Vec2 {
     assert!(
