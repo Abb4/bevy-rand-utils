@@ -1,50 +1,25 @@
-use bevy::prelude::{Vec2, Vec3};
+#![warn(missing_docs)]
+//! Implements some randomness extension traits for common [glam](https://docs.rs/glam/latest/glam/index.html) types, which are currently used by [bevy](https://bevyengine.org/)
+//!
+//! Impementation uses the the [fastrand](https://docs.rs/fastrand/latest/fastrand/index.html) crate.
+//!
+//! # Usage
+//! ```ignore
+//! use glam::{Vec2, Vec3};
+//! use bevy_rand_utils::prelude::*;
+//!
+//! var f = f32::new_random(&50.0, &80.0); // generates a random f32 between 50 (inclusive) and 80 (exclusive)
+//!
+//! var vec1 = Vec2::new_random(&50.0, &80.0); // generates a Vec2 with x, y randomly between 50 (inclusive) and 80 (exclusive)
+//! var vec2 = Vec3::new_random(&50.0, &80.0); // generates a Vec3 with random x, y, z
+//! var vec3 = Vec2::new_random_from_distance(&80.0); // generates a vector at most 80 units (exclusive) away from Vec3::ZERO.
+//! ```
 
-/// Produces a `Vec3` at least `min_distance` and at most `max_distance` away from `origin` taking `origin.z` as its z-component.
-pub fn rand_vec3_xy(origin: Vec3, min_distance: f32, max_distance: f32) -> Vec3 {
-    assert!(
-        min_distance <= max_distance,
-        "Min distance is greater than max distance when generating a vector with offset."
-    );
+#[doc(hidden)]
+pub mod prelude;
+pub use crate::prelude::*;
 
-    Vec3::new(
-        origin.x + random_f32_signed(min_distance, max_distance),
-        origin.y + random_f32_signed(min_distance, max_distance),
-        origin.z,
-    )
-}
-
-/// Produces a `Vec2` at least `min_distance` and at most `max_distance` away from `origin`.
-pub fn rand_vec2(origin: Vec2, min_distance: f32, max_distance: f32) -> Vec2 {
-    assert!(
-        min_distance <= max_distance,
-        "Min distance is greater than max distance when generating a vector with offset."
-    );
-
-    Vec2::new(
-        origin.x + random_f32_signed(min_distance, max_distance),
-        origin.y + random_f32_signed(min_distance, max_distance),
-    )
-}
-
-/// Produces a `Vec3` at least `min_distance` and at most `max_distance` away from `origin`.
-pub fn rand_vec3(origin: Vec3, min_distance: f32, max_distance: f32) -> Vec3 {
-    assert!(
-        min_distance <= max_distance,
-        "Min distance is greater than max distance when generating a vector with offset."
-    );
-
-    Vec3::new(
-        origin.x + random_f32_signed(min_distance, max_distance),
-        origin.y + random_f32_signed(min_distance, max_distance),
-        origin.z + random_f32_signed(min_distance, max_distance),
-    )
-}
-
-/// Produces a `f32` between `lower_bound` and `upper_bound`.
-/// Also randomly negates the result.
-fn random_f32_signed(lower_bound: f32, upper_bound: f32) -> f32 {
-    let offset = upper_bound - lower_bound;
-
-    lower_bound + fastrand::f32() * offset * if fastrand::bool() { 1.0 } else { -1.0 }
-}
+mod random_from_distance;
+mod random_from_range;
+mod tests;
+mod vec2_ext;
