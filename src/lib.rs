@@ -12,7 +12,7 @@
 //!
 //! var vec1 = Vec2::new_random(&50.0, &80.0); // generates a Vec2 with x, y randomly between 50 (inclusive) and 80 (exclusive)
 //! var vec2 = Vec3::new_random(&50.0, &80.0); // generates a Vec3 with random x, y, z
-//! var vec3 = Vec2::new_random_from_distance(&80.0); // generates a vector at most 80 units (exclusive) away from Vec3::ZERO.
+//! var vec3 = Vec2::new_random_from_distance(&80.0); // generates a vector at most 80 units (exclusive) away from Vec2::ZERO.
 //! ```
 
 #[doc(hidden)]
